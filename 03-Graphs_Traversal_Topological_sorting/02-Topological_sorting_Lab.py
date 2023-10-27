@@ -1,6 +1,6 @@
 def find_dependencies(graph):
     dependencies = {}
-    for node, children in graph.items():
+    for node, children in graph.iteritems():
         if node not in dependencies:
             dependencies[node] = 0
         for child in children:
@@ -24,22 +24,22 @@ for _ in range(nodes):
     node, children = input().split(' ->')
     graph[node] = children.strip().split(', ') if children else []
 
-dependencies_by_node = find_dependencies(graph)
+dependencies = find_dependencies(graph)
 
-has_cycles = False
+cyclic = False
 sorted_nodes = []
 
-while dependencies_by_node:
-    node_to_remove = find_node_without_a_dependency(dependencies_by_node)
+while dependencies:
+    node_to_remove = find_node_without_a_dependency(dependencies)
     if node_to_remove is None:
-        has_cycles = True
+        cyclic = True
         break
     sorted_nodes.append(node_to_remove)
-    dependencies_by_node.pop(node_to_remove)
+    dependencies.pop(node_to_remove)
     for child in graph[node_to_remove]:
-        dependencies_by_node[child] -= 1
+        dependencies[child] -= 1
 
-if has_cycles:
+if cyclic:
     print("Invalid topological sorting")
 else:
     print(f"Topological sorting: {', '.join(sorted_nodes)}")

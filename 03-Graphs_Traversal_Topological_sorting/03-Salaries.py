@@ -6,12 +6,12 @@ def dfs(hierarchy, node, visited, salaries_book):
     if 'Y' not in successors:
         salaries_book[node] = 1
     else:
-        for i in range(len(successors)):
-            if successors[i] == 'Y':
-                dfs(hierarchy, i, visited, salaries_book)
+        for successor in range(len(successors)):
+            if successors[successor] == 'Y':
+                dfs(hierarchy, successor, visited, salaries_book)
                 if node not in salaries_book:
                     salaries_book[node] = 0
-                salaries_book[node] += salaries_book[i]
+                salaries_book[node] += salaries_book[successor]
     return salaries_book
 
 
